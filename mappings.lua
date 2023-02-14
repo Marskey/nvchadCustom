@@ -248,6 +248,7 @@ local function getVisualSelection()
   end
 end
 
+local last_find_files = nil
 M.telescope = {
   plugin = true,
 
@@ -255,14 +256,56 @@ M.telescope = {
     -- find
     ["<leader>ff"] = { "<cmd> Telescope find_files <CR>", "find files" },
     ["<leader>fa"] = { "<cmd> Telescope find_files follow=true no_ignore=true hidden=true <CR>", "find all" },
-    ["<leader>fg"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
+    -- ["<leader>fg"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
     ["<leader>fb"] = { "<cmd> Telescope buffers <CR>", "find buffers" },
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles only_cwd=true <CR>", "find oldfiles" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
     ["<leader>fj"] = { "<cmd> Telescope jumplist <CR>", "show keys" },
     ["<leader>fs"] = { "<cmd> Telescope lsp_document_symbols <CR>", "document symbols" },
-    ["<leader>fr"] = { "<cmd> Telescope pickers <CR>", "Resume last find" },
+    ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "Resume last find" },
+    ["<leader>fl"] = { "<cmd> Telescope pickers <CR>", "find pickers cache" },
+    -- ["<leader>ff"] = {
+    --   function(...)
+    --     local actions = require "telescope.actions"
+    --     local state = require "telescope.state"
+    --
+    --     local save_last_found = function()
+    --       -- taken from builtin.resume maybe rfc into a `telescope.utils`.get_last_picker
+    --       local cached_pickers = state.get_global_key "cached_pickers"
+    --       if cached_pickers == nil or vim.tbl_isempty(cached_pickers) then
+    --         print "No picker(s) cached"
+    --         return
+    --       end
+    --       print(cached_pickers[1].prompt_title)
+    --       if cached_pickers[1].prompt_title == "Find Files" then
+    --         last_find_files = cached_pickers[1] -- last picker is always 1st
+    --       end
+    --     end
+    --
+    --     local function find_files(opts)
+    --       opts = opts or {}
+    --       opts.attach_mappings = function(_, _)
+    --         actions.close:enhance {
+    --           post = save_last_found,
+    --         }
+    --         actions.select_default:enhance {
+    --           post = save_last_found,
+    --         }
+    --         return true
+    --       end
+    --       if last_find_files == nil then
+    --         require("telescope.builtin").find_files(opts)
+    --       else
+    --         require("telescope.builtin").resume { picker = last_find_files }
+    --       end
+    --     end
+    --
+    --     find_files(...)
+    --   end,
+    --   "find files",
+    -- },
+    ["<leader>fg"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
 
     -- git
     ["<leader>gm"] = { "<cmd> Telescope git_commits <CR>", "git commits" },
@@ -296,21 +339,6 @@ M.telescope = {
       end,
       "Find Text",
     },
-  },
-
-  i = {
-    -- ["<C-j>"] = {
-    --   function()
-    --     local prompt_bufnr = vim.api.nvim_get_current_buf()
-    --     return require("telescope.actions").cycle_history_next(prompt_bufnr)
-    --   end,
-    -- },
-    -- ["<C-k>"] = {
-    --   function()
-    --     local prompt_bufnr = vim.api.nvim_get_current_buf()
-    --     return require("telescope.actions").cycle_history_prev(prompt_bufnr)
-    --   end,
-    -- },
   },
 }
 
@@ -413,14 +441,14 @@ M.gitsigns = {
       function()
         require("gitsigns").stage_hunk()
       end,
-      "Reset hunk",
+      "Stage hunk",
     },
 
     ["<leader>gu"] = {
       function()
         require("gitsigns").undo_stage_hunk()
       end,
-      "Reset hunk",
+      "Undo stage hunk",
     },
 
     ["<leader>gp"] = {
@@ -441,7 +469,7 @@ M.gitsigns = {
       function()
         require("gitsigns").diffthis "HEAD"
       end,
-      "Toggle deleted",
+      "Diff this",
     },
 
     ["<leader>gb"] = {

@@ -6,7 +6,6 @@ return {
       },
       tabufline = {
         enabled = false,
-        lazyload = true,
         overriden_modules = nil,
       },
     },
@@ -46,8 +45,9 @@ return {
   },
 
   ["nvim-telescope/telescope.nvim"] = {
-    requires = "aerial",
-    after = {"telescope-live-grep-args.nvim", "aerial.nvim" },
+    module = "telescope",
+    cmd = "Telescope",
+    after = { "telescope-live-grep-args.nvim", "aerial.nvim" },
     override_options = {
       defaults = {
         -- prompt_prefix = "   ",
@@ -71,7 +71,7 @@ return {
           scroll_strategy = "limit",
         },
       },
-      extensions_list = { "themes", "terms", "live_grep_args", "smart_history", "aerial" },
+      extensions_list = { "themes", "terms", "live_grep_args", "aerial" },
       extensions = {
         aerial = {
           default_selection_index = 1,
@@ -146,6 +146,7 @@ return {
 
   ["nvim-telescope/telescope-live-grep-args.nvim"] = {
     requires = "telescope.nvim",
+    opt = true,
     setup = function()
       require("core.utils").load_mappings "live_grep_args"
     end,
