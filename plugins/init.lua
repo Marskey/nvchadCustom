@@ -46,7 +46,6 @@ return {
 
   ["nvim-telescope/telescope.nvim"] = {
     module = "telescope",
-    cmd = "Telescope",
     after = { "telescope-live-grep-args.nvim", "aerial.nvim" },
     override_options = {
       defaults = {

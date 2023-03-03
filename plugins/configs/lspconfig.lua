@@ -3,7 +3,7 @@ local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
 
 local lspconf = require "lspconfig"
-local servers = { "sumneko_lua" }
+local servers = { "lua_ls" }
 
 for _, server in ipairs(servers) do
   local opts = {
@@ -15,7 +15,7 @@ for _, server in ipairs(servers) do
     opts = vim.tbl_deep_extend("force", opts, server_custom_opts)
   end
 
-  if server == "sumneko_lua" then
+  if server == "lua_ls" then
     opts.root_dir = lspconf.util.root_pattern(".luarc.json", ".git")
   end
 
