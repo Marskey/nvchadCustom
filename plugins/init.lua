@@ -34,19 +34,19 @@ return {
 
   -- misc plugins
   ["nvim-tree/nvim-tree.lua"] = {
-    ft = "alpha",
-    cmd = { "NvimTreeToggle", "NvimTreeFocus" },
-    config = function()
-      require "plugins.configs.nvimtree"
-    end,
-    setup = function()
-      require("core.utils").load_mappings "nvimtree"
-    end,
+    override_options = {
+      filters = {
+        dotfiles = false,
+        exclude = { vim.fn.stdpath "config" .. "/lua/custom" },
+        custom = { "^.git$" },
+      },
+    },
   },
 
   ["nvim-telescope/telescope.nvim"] = {
     module = "telescope",
-    after = { "telescope-live-grep-args.nvim", "aerial.nvim" },
+    cmd = "Telescope",
+    require = { "telescope-live-grep-args.nvim", "aerial.nvim" },
     override_options = {
       defaults = {
         -- prompt_prefix = "   ",
@@ -122,7 +122,11 @@ return {
     opt = false,
   },
 
-  ["stevearc/stickybuf.nvim"] = {},
+  ["stevearc/stickybuf.nvim"] = {
+    config = function()
+      require("stickybuf").setup()
+    end,
+  },
 
   ["nvim-treesitter/nvim-treesitter"] = {
     override_options = {

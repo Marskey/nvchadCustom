@@ -7,4 +7,4 @@ vim.cmd [[
     augroup END
 ]]
 
-    -- source macmap.vim
+vim.cmd [[source lua/custom/macmap.vim ]]

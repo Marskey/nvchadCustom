@@ -261,7 +261,7 @@ M.telescope = {
     ["<leader>fh"] = { "<cmd> Telescope help_tags <CR>", "help page" },
     ["<leader>fo"] = { "<cmd> Telescope oldfiles only_cwd=true <CR>", "find oldfiles" },
     ["<leader>fk"] = { "<cmd> Telescope keymaps <CR>", "show keys" },
-    ["<leader>fj"] = { "<cmd> Telescope jumplist <CR>", "show keys" },
+    ["<leader>fj"] = { "<cmd> Telescope jumplist <CR>", "jumplist" },
     ["<leader>fs"] = { "<cmd> Telescope lsp_document_symbols <CR>", "document symbols" },
     ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "Resume last find" },
     ["<leader>fl"] = { "<cmd> Telescope pickers <CR>", "find pickers cache" },
@@ -347,7 +347,10 @@ M.toggleterm = {
 
   t = {},
 
-  n = {},
+  n = {
+    ["<leader>tv"] = {"<cmd> ToggleTerm size=80 direction=vertical<cr>", "term vertical"},
+    ["<leader>th"] = {"<cmd> ToggleTerm size=10 direction=horizontal<cr>", "term horizontal"},
+  },
 }
 
 if not vim.env.ITERM then

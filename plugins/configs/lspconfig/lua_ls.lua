@@ -34,6 +34,10 @@ return {
         },
         pathStrict = false,
       },
+      completion = {
+        enable = true,
+        autoRequire = true,
+      },
     },
   },
 }
