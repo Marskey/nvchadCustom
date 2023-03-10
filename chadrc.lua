@@ -6,4 +6,12 @@ M.mappings = require "custom.mappings"
 
 M.plugins = require "custom.plugins"
 
+M.ui = {
+  hl_override = {
+    CursorLine = {
+      bg = "darker_black",
+    },
+  },
+}
+
 return M
