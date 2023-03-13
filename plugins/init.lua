@@ -15,6 +15,7 @@ return {
 
   ["akinsho/toggleterm.nvim"] = {
     cmd = "ToggleTerm",
+    module = "toggleterm.terminal",
     keys = { [[<c-\>]] },
     config = function()
       require "custom.plugins.configs.toggleterm"
@@ -44,8 +45,8 @@ return {
   },
 
   ["nvim-telescope/telescope.nvim"] = {
-    module = "telescope",
     cmd = "Telescope",
+    module = "telescope",
     require = { "telescope-live-grep-args.nvim", "aerial.nvim" },
     override_options = {
       defaults = {
@@ -173,6 +174,7 @@ return {
 
   ["stevearc/aerial.nvim"] = {
     requires = "telescope.nvim",
+    after = "telescope.nvim",
     cmd = {
       "AerialToggle",
       "AerialOpen",
@@ -183,7 +185,6 @@ return {
       "AerialPrev",
       "AerialGo",
       "AerialInfo",
-      "Telescope",
     },
     config = function()
       require "custom.plugins.configs.aerial"
@@ -191,5 +192,9 @@ return {
     setup = function()
       require("core.utils").load_mappings "aerial"
     end,
+  },
+
+  ["L3MON4D3/LuaSnip"] = {
+    run = "make install_jsregexp",
   },
 }

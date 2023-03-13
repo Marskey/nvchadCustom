@@ -45,3 +45,4 @@ opt.whichwrap:append "<>[]hl"
 opt.guifont = "Hack Nerd Font:h14"
 
 g.mapleader = " "
+g.luasnippets_path = "./lua/custom/my_snippets"

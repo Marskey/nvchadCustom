@@ -8,3 +8,4 @@ vim.cmd [[
 ]]
 
 vim.cmd [[source lua/custom/macmap.vim ]]
+vim.cmd [[ autocmd User TelescopePreviewerLoaded setlocal wrap ]]

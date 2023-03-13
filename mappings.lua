@@ -57,6 +57,7 @@ M.disabled = {
     ["[d"] = "",
     ["d]"] = "",
     ["<leader>ra"] = "",
+    ["<leader>ca"] = "",
   },
 
   v = {
@@ -165,7 +166,7 @@ M.lspconfig = {
       "lsp rename",
     },
 
-    ["<leader>ca"] = {
+    ["<leader>la"] = {
       function()
         vim.lsp.buf.code_action()
       end,
@@ -265,46 +266,6 @@ M.telescope = {
     ["<leader>fs"] = { "<cmd> Telescope lsp_document_symbols <CR>", "document symbols" },
     ["<leader>fr"] = { "<cmd> Telescope resume <CR>", "Resume last find" },
     ["<leader>fl"] = { "<cmd> Telescope pickers <CR>", "find pickers cache" },
-    -- ["<leader>ff"] = {
-    --   function(...)
-    --     local actions = require "telescope.actions"
-    --     local state = require "telescope.state"
-    --
-    --     local save_last_found = function()
-    --       -- taken from builtin.resume maybe rfc into a `telescope.utils`.get_last_picker
-    --       local cached_pickers = state.get_global_key "cached_pickers"
-    --       if cached_pickers == nil or vim.tbl_isempty(cached_pickers) then
-    --         print "No picker(s) cached"
-    --         return
-    --       end
-    --       print(cached_pickers[1].prompt_title)
-    --       if cached_pickers[1].prompt_title == "Find Files" then
-    --         last_find_files = cached_pickers[1] -- last picker is always 1st
-    --       end
-    --     end
-    --
-    --     local function find_files(opts)
-    --       opts = opts or {}
-    --       opts.attach_mappings = function(_, _)
-    --         actions.close:enhance {
-    --           post = save_last_found,
-    --         }
-    --         actions.select_default:enhance {
-    --           post = save_last_found,
-    --         }
-    --         return true
-    --       end
-    --       if last_find_files == nil then
-    --         require("telescope.builtin").find_files(opts)
-    --       else
-    --         require("telescope.builtin").resume { picker = last_find_files }
-    --       end
-    --     end
-    --
-    --     find_files(...)
-    --   end,
-    --   "find files",
-    -- },
     ["<leader>fg"] = { "<cmd> Telescope live_grep <CR>", "live grep" },
 
     -- git
@@ -342,14 +303,38 @@ M.telescope = {
   },
 }
 
+local lazygit = nil
 M.toggleterm = {
   plugin = true,
 
   t = {},
 
   n = {
-    ["<leader>tv"] = {"<cmd> ToggleTerm size=80 direction=vertical<cr>", "term vertical"},
-    ["<leader>th"] = {"<cmd> ToggleTerm size=10 direction=horizontal<cr>", "term horizontal"},
+    ["<leader>tv"] = { "<cmd> ToggleTerm size=80 direction=vertical<cr>", "term vertical" },
+    ["<leader>th"] = { "<cmd> ToggleTerm size=10 direction=horizontal<cr>", "term horizontal" },
+    ["<leader>gg"] = {
+      function()
+        if not lazygit then
+          local Terminal = require("toggleterm.terminal").Terminal
+          lazygit = Terminal:new {
+            cmd = "lazygit",
+            direction = "float",
+            -- function to run on opening the terminal
+            on_open = function(term)
+              vim.cmd "startinsert!"
+              vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
+            end,
+            -- function to run on closing the terminal
+            on_close = function(term)
+              vim.cmd "startinsert!"
+            end,
+          }
+        end
+
+        lazygit:toggle()
+      end,
+      "term lazygit",
+    },
   },
 }
 
